@@ -27,8 +27,7 @@ class Leaderboard {
   }
 
   wipe() {
-    this.leaderboard = new Map();
-    console.log(this.leaderboard.size());
+    this.leaderboard.clear();
   }
 }
 
