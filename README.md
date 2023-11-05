@@ -19,7 +19,8 @@ $nvm install --lts
 #### Configure token
 Create a file called .env\
 Write ``DISCORD_TOKEN=<your bots token var>`` in the file\
-In ``index.js`` change admin to the username of the admin in your server
+In ``index.js`` change admin to the username of the admin in your server\
+Also in ``index.js`` you can add phrases to track by changing ``const keywords = new Set();`` 
 #### Starting the app
 ``$npm run start``\
 If successfull, the console should display "Project is running!" with no errors

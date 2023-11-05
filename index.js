@@ -3,6 +3,11 @@ require("dotenv").config();
 const { Client, GatewayIntentBits, Events } = require("discord.js");
 const Leaderboard = require("./leaderboard.js");
 
+// Define keywords to track by changing this to `= new Set(["phrase1", "phrase2", ...])`
+const keywords = new Set();
+// Enter the server admin's global name here
+const admin = "";
+
 // set up local webserver
 const app = express()
 app.listen(3000, () => {
@@ -21,14 +26,6 @@ const client = new Client({
   ]
 })
 
-// Define keywords to track
-const keywords = new Set([
-  "shes real",
-  "I miss her",
-  "shes not real",
-  "her"
-]);
-
 // Define leaderboard
 const leaderboard = new Leaderboard();
 
@@ -46,17 +43,18 @@ client.on(Events.MessageCreate, message => {
   }
   // wipe leaderboard
   else if (message.content === "!!wipe") {
-    if(message.author.globalName !== "Vayuda"){
-      message.channel.send("You do not have permission to wipe the leaderboard.");
-    }
-    else{
+    if (message.author.globalName !== admin) {
+      message.channel.send(
+        "You do not have permission to wipe the leaderboard."
+      );
+    } else {
       leaderboard.wipe();
       message.channel.send("Leaderboard wiped.");
     }
   }
   // add a phrase to track
   else if (message.content.startsWith("!!add phrase")) {
-    if(message.author.globalName !== "Vayuda"){
+    if(message.author.globalName !== admin){
       message.channel.send("You do not have permission to wipe the leaderboard.");
     }
     else{
@@ -65,7 +63,6 @@ client.on(Events.MessageCreate, message => {
       message.channel.send(`Added "${phrase}" to the list of phrases to track.`);
     }
   }
-
 })
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN
