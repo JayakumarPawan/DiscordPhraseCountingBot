@@ -1,6 +1,6 @@
 class Leaderboard {
   constructor() {
-    this.leaderboard = Map();
+    this.leaderboard = new Map();
   }
 
   update(item) {
@@ -27,7 +27,7 @@ class Leaderboard {
   }
 
   wipe() {
-    this.leaderboard = Map();
+    this.leaderboard = new Map();
   }
 }
 
