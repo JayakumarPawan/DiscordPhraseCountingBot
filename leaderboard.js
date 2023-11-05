@@ -12,6 +12,10 @@ class Leaderboard {
   }
 
   toString() {
+    //return message if leaderboard is empty
+    if (this.leaderboard.size === 0) {
+      return "Looks like she's not real yet...";
+    }
     // Convert the Map entries to an array and sort them in descending order by count
     const sortedEntries = [...this.leaderboard.entries()].sort(
       (a, b) => b[1] - a[1]

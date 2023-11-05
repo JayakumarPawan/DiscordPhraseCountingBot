@@ -42,12 +42,7 @@ client.on(Events.MessageCreate, message => {
   }
   // show leaderboard
   else if (message.content === "!!leaderboard") {
-    if(leaderboard.size === 0){
-      message.channel.send("No one has interacted with the bot yet.");
-    }else{
-      message.channel.send(leaderboard.toString());
-    }
-    
+    message.channel.send(leaderboard.toString());
   }
   // wipe leaderboard
   else if (message.content === "!!wipe") {
