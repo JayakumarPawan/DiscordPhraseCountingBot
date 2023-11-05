@@ -30,7 +30,7 @@ const keywords = new Set([
 ]);
 
 // Define leaderboard
-const leaderboard = Leaderboard();
+const leaderboard = new Leaderboard();
 
 //This is called whenever someone sends a message in the server
 client.on(Events.MessageCreate, message => {
