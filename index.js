@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const { Client, GatewayIntentBits, Events } = require("discord.js");
-const {Leaderboard} = require("./leaderboard.js");
+import {Leaderboard} from "./leaderboard.mjs";
 
 // set up local webserver
 const app = express()
