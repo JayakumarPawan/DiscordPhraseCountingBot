@@ -1,27 +1,27 @@
 # DiscordPhraseCountingBot
 This bot reads messages and updates a per-user count of when someone says certain pre-defined phrases
 
-This bot is deployed on a free tier ec2-instance. These are all the commands I ran after running ssh
+This bot is deployed on a free tier micro ec2-instance. These are all the commands I ran after connecting to terminal via the online console
 
-## create directory:
-mkdir discord_bot
-cd discord_bot
+### install git and clone repo:
+sudo yum update
+sudo yum install git
+git clone https://github.com/JayakumarPawan/DiscordPhraseCountingBot
 
-## install nvm/node (ensure checksum matches):
+
+### install nvm/node (ensure checksum matches):
 ``curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash``
 ``. ~/.nvm/nvm.sh``
 ``nvm install --lts``
 
-## create node project and install dependencies
-``npm init -y``
-``npm install express``
-``npm install discord.js``
-``npm install dotenv``
+### Install dependencies
+``npm init -i``
 
-## create source files
+### configure token
 run ``vim .env``to create the file which will hold the discord token variable
-clone this repo
+i to insert then type DISCORD_TOKEN=<your bots token var>
+type escape then :w then :q
 
 ## starting the app
-in package.json, under scripts, add "start": "node ."
 ``npm run start``
+if successfull, the console should display "Project is running!" with no errors
