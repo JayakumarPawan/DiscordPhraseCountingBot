@@ -1,4 +1,4 @@
-export class Leaderboard {
+class Leaderboard {
   constructor() {
     this.leaderboard = Map();
   }
@@ -26,9 +26,9 @@ export class Leaderboard {
     return result;
   }
 
-  wipe(){
+  wipe() {
     this.leaderboard = Map();
   }
 }
 
-export { Leaderboard };
+module.exports = Leaderboard;
