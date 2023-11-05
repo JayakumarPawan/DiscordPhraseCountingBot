@@ -1,4 +1,4 @@
-export class Leaderboard {
+class Leaderboard {
   constructor() {
     this.leaderboard = Map();
   }
