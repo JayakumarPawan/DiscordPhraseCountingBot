@@ -60,7 +60,7 @@ client.on(Events.MessageCreate, message => {
     }
   }
   // add a phrase to track
-  else if (message.content === "!!add phrase") {
+  else if (message.content.startsWith("!!add phrase")) {
     if(message.author.globalName !== "Vayuda"){
       message.channel.send("You do not have permission to wipe the leaderboard.");
     }
