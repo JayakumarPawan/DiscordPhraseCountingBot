@@ -1,16 +1,18 @@
 const express = require("express");
-const app = express()
+require("dotenv").config();
+const { Client, GatewayIntentBits, Events } = require("discord.js");
+import {Leaderboard} from "./leaderboard.js";
 
+// set up local webserver
+const app = express()
 app.listen(3000, () => {
   console.log("Project is running!")
 })
-
 app.get("/", (req, res) => {
   res.send("Hello world!");
 })
 
-const { Client, GatewayIntentBits, Events} = require('discord.js');
-
+// Set up discord client event handler
 const client = new Client({ 
   intents: [
     GatewayIntentBits.Guilds,
@@ -18,6 +20,8 @@ const client = new Client({
     GatewayIntentBits.MessageContent
   ]
 })
+
+// Define keywords to track
 const keywords = new Set([
   "shes real",
   "I miss her",
@@ -25,51 +29,49 @@ const keywords = new Set([
   "her"
 ]);
 
-const leaderboard = new Map();
+// Define leaderboard
+const leaderboard = Leaderboard();
 
-function updateLeaderboard(item) {
-  // Check if the item already exists in the Map
-  if (leaderboard.has(item)) {
-    // If it exists, increment the frequency count
-      leaderboard.set(item, leaderboard.get(item) + 1);
-  } else {
-    // If it doesn't exist, set the frequency count to 1
-      leaderboard.set(item, 1);
-  }
-}
-function printLeaderboard() {
-  // Convert the Map entries to an array and sort them in descending order by count
-  const sortedEntries = [...leaderboard.entries()].sort((a, b) => b[1] - a[1]);
-  let result = '';
-
-  // Iterate through the Map entries and format them
-  for (const [item, count] of sortedEntries) {
-    result += `${item}: ${count} time${count > 1 ? 's' : ''}\n`;
-  }
-
-  return result;
-}
-
-
+//This is called whenever someone sends a message in the server
 client.on(Events.MessageCreate, message => {
-  console.log("message create event receieved")
-  console.log(message.content)
-  console.log(keywords.has(message.content))
+
+  // look for keywords in the message
   if (keywords.has(message.content)) {
     message.channel.send("https://tenor.com/view/mahiru-shiina-mahiru-shiina-%E6%A4%8E%E5%90%8D%E7%9C%9F%E6%98%BC-otonari-no-tenshi-sama-gif-10239075908011260381")
-    updateLeaderboard(message.author.globalName)
+    leaderboard.update(message.author.globalName)
   }
-
-  if (message.content === "!leaderboard") {
+  // show leaderboard
+  else if (message.content === "!!leaderboard") {
     if(leaderboard.size === 0){
       message.channel.send("No one has interacted with the bot yet.");
     }else{
-      console.log(printLeaderboard())
-      message.channel.send(printLeaderboard());
+      message.channel.send(leaderboard.toString());
     }
     
   }
+  // wipe leaderboard
+  else if (message.content === "!!wipe") {
+    if(message.author.globalName !== "Vayuda"){
+      message.channel.send("You do not have permission to wipe the leaderboard.");
+    }
+    else{
+      leaderboard.wipe();
+      message.channel.send("Leaderboard wiped.");
+    }
+  }
+  // add a phrase to track
+  else if (message.content === "!!add phrase") {
+    if(message.author.globalName !== "Vayuda"){
+      message.channel.send("You do not have permission to wipe the leaderboard.");
+    }
+    else{
+      const phrase = message.content.split(" ").splice(2).join(" ").trim();
+      keywords.add(phrase);
+      message.channel.send(`Added "${phrase}" to the list of phrases to track.`);
+    }
+  }
+
 })
-require('dotenv').config();
+
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN
 client.login(DISCORD_TOKEN);
